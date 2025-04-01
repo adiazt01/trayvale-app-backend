@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import appConfig from './config/configurations/app.configuration';
@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CommonModule } from './common/common.module';
 
+@Global()
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -31,6 +32,7 @@ import { CommonModule } from './common/common.module';
         password: configService.get(EnviorementsKeys.DATABASE_PASSWORD),
         database: configService.get(EnviorementsKeys.DATABASE_NAME),
         synchronize: true,
+        autoLoadEntities: true,
       }),
     }),
     CqrsModule.forRoot(),
@@ -41,5 +43,9 @@ import { CommonModule } from './common/common.module';
   controllers: [],
   providers: [
   ],
+  exports: [
+    ConfigModule,
+    TypeOrmModule,
+  ]
 })
 export class AppModule { }

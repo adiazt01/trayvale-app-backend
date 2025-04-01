@@ -1,14 +1,17 @@
 import { CreateUserDto } from '@/users/dto/create-user.dto';
 import { UsersService } from '@/users/users.service';
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { JwtPayload } from './interface/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
+import { LoginUserDto } from './dto/login-user.dto';
+import { EncryptionService } from 'src/common/services/encryption.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly encryptionService: EncryptionService,
   ) { }
 
   async signUp(createUserDto: CreateUserDto) {
@@ -21,8 +24,28 @@ export class AuthService {
     const newUser = await this.usersService.create(createUserDto);
     
     return {
-      user: newUser,
+      ...newUser,
       token: this.getJwtToken({ email: newUser.email, id: newUser.id, username: newUser.username }),
+    }
+  }
+
+  async signIn(loginUserDto: LoginUserDto) {
+    const { email, password } = loginUserDto;
+
+    const userFound = await this.usersService.findOneByEmail(email);
+
+    const isPasswordValid = await this.encryptionService.comparePasswords(
+      password,
+      userFound.password,
+    );
+
+    if (!userFound || !isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    return {
+      ...userFound,
+      token: this.getJwtToken({ email: userFound.email, id: userFound.id, username: userFound.username }),
     }
   }
 

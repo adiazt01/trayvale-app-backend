@@ -5,12 +5,14 @@ import { User } from './entities/user.entity';
 import { commandHandlers } from './commands/handlers';
 import { EncryptionService } from 'src/common/services/encryption.service';
 import { queriesHandlers } from './queries/handlers';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [
+    CqrsModule,
     TypeOrmModule.forFeature([
       User
-    ])
+    ]),
   ],
   providers: [
     UsersService, 

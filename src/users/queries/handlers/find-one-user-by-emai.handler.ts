@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { FindOneUserByEmailQuery } from "../impl/find-one-user-by-email";
+import { FindOneUserByEmailQuery } from "../impl/find-one-user-by-email.query";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "@/users/entities/user.entity";
 import { Repository } from "typeorm";
@@ -16,6 +16,12 @@ export class FindOneUserByEmailHandler implements IQueryHandler<FindOneUserByEma
     
     const user = await this.userRepository.findOne({
       where: { email: email },
+      select: {
+        password: true,
+        email: true,
+        id: true,
+        username: true,
+      }
     });
 
     if (!user) {

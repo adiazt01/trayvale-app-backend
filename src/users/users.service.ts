@@ -1,9 +1,10 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { CommandBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from './commands/impl/create-user.command';
 import { User } from './entities/user.entity';
-import { FindOneUserByEmailQuery } from './queries/impl/find-one-user-by-email';
+import { FindOneUserByEmailQuery } from './queries/impl/find-one-user-by-email.query';
+import { FindOneUserQuery } from './queries/impl/find-one-user.query';
 
 @Injectable()
 export class UsersService {
@@ -11,7 +12,7 @@ export class UsersService {
 
   constructor(
     private readonly commandBus: CommandBus,
-    private readonly queryBus: CommandBus,
+    private readonly queryBus: QueryBus,
   ) { }
 
   async create(createUserDto: CreateUserDto): Promise<Omit<User, 'password'>> {
@@ -30,6 +31,26 @@ export class UsersService {
 
       throw new InternalServerErrorException(
         'An error occurred while creating the user'
+      );
+    }
+  }
+
+  async findOne(id:number): Promise<User | null> {
+    try {
+      const user = await this.queryBus.execute(
+        new FindOneUserQuery(id)
+      );
+
+      if (!user) {
+        throw new NotFoundException(`User with id ${id} not found`);
+      }
+
+      return user;
+    } catch (error) {
+      this.logger.error('Failed to find user', error.stack);
+      
+      throw new InternalServerErrorException(
+        'An error occurred while finding the user'
       );
     }
   }

@@ -3,7 +3,8 @@
     "paths": {
       "@/auth/*": ["src/auth/*"],
       "@/config/*": ["src/config/*"],
-      "@/users/*": ["src/users/*"]
+      "@/users/*": ["src/users/*"],
+      "@/common/*": ["src/common/*"],
     },
     "module": "commonjs",
     "declaration": true,
