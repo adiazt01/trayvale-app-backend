@@ -30,6 +30,6 @@ import { EncryptionService } from 'src/common/services/encryption.service';
   ],
   controllers: [AuthController],
   providers: [AuthService, UsersService, JwtStrategy, EncryptionService],
-  exports: [PassportModule, JwtModule],
+  exports: [PassportModule, JwtModule, JwtStrategy],
 })
 export class AuthModule { }

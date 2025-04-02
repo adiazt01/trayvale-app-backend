@@ -20,7 +20,6 @@ async function bootstrap() {
     .setDescription('The Trayvale API description')
     .setVersion('1.0')
     .addTag('trayvale')
-    .addBearerAuth()
     .build();
 
   const document = () => SwaggerModule.createDocument(app, config);

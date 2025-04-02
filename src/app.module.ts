@@ -8,6 +8,13 @@ import { EnviorementsKeys } from './config/enums/enviorements.enum';
 import { UsersModule } from './users/users.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CommonModule } from './common/common.module';
+import { ProductsModule } from './products/products.module';
+import { SalesModule } from './sales/sales.module';
+import { InvoicesModule } from './invoices/invoices.module';
+import { PaymentsModule } from './payments/payments.module';
+import { ReportsModule } from './reports/reports.module';
+import { FilesModule } from './files/files.module';
+import { CustomersModule } from './customers/customers.module';
 
 @Global()
 @Module({
@@ -38,7 +45,14 @@ import { CommonModule } from './common/common.module';
     CqrsModule.forRoot(),
     AuthModule,
     UsersModule,
-    CommonModule
+    CommonModule,
+    ProductsModule,
+    SalesModule,
+    CustomersModule,
+    InvoicesModule,
+    PaymentsModule,
+    ReportsModule,
+    FilesModule
   ],
   controllers: [],
   providers: [
