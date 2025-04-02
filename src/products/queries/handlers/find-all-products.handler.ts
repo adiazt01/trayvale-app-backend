@@ -11,7 +11,7 @@ export class FindAllProductsHandler implements IQueryHandler<FindAllProductsQuer
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
-  ) {}
+  ) { }
 
   async execute(query: FindAllProductsQuery) {
     const { paginationOptionsDto } = query;
@@ -19,20 +19,20 @@ export class FindAllProductsHandler implements IQueryHandler<FindAllProductsQuer
     const queryBuilder = this.productRepository
       .createQueryBuilder("product");
 
-      queryBuilder
+    queryBuilder
       .orderBy("product.createdAt", paginationOptionsDto.order)
       .skip(paginationOptionsDto.skip)
       .take(paginationOptionsDto.limit);
 
 
-      const itemCount = await queryBuilder.getCount();
-      const { entities } = await queryBuilder.getRawAndEntities();
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
 
-      const paginationMetaData = new PaginationMetadataDto({
-        itemCount,
-        paginationOptionsDto,
-      })
-    
+    const paginationMetaData = new PaginationMetadataDto({
+      itemCount,
+      paginationOptionsDto,
+    })
+
     return new PaginationResultDto(entities, paginationMetaData)
   }
 }

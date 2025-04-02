@@ -34,6 +34,10 @@ export class AuthService {
 
     const userFound = await this.usersService.findOneByEmail(email);
 
+    if (!userFound) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
     const isPasswordValid = await this.encryptionService.comparePasswords(
       password,
       userFound.password,
