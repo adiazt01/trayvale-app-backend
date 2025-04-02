@@ -5,6 +5,9 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateProductCommand } from './commands/impls/create-product.command';
 import { FindAllProductsQuery } from './queries/impls/find-all-products.query';
 import { FindOneProductQuery } from './queries/impls/find-one-product.query';
+import { PaginationOptionsDto } from '@/common/dtos/pagination-options.dto';
+import { PaginationResultDto } from '@/common/dtos/pagination-result.dto';
+import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductsService {
@@ -35,10 +38,10 @@ export class ProductsService {
     }
   }
 
-  async findAll() {
+  async findAll(paginationDto?: PaginationOptionsDto): Promise<PaginationResultDto<Product>> {
     try {
       const products = await this.queryBus.execute(
-        new FindAllProductsQuery(),
+        new FindAllProductsQuery(paginationDto),
       );
 
       return products;
