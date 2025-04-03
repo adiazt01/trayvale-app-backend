@@ -1,11 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
+import { Sale } from './entities/sale.entity';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 @Injectable()
 export class SalesService {
-  create(createSaleDto: CreateSaleDto) {
-    return 'This action adds a new sale';
+  private readonly logger = new Logger(SalesService.name);
+
+  constructor (
+    private readonly command: CommandBus,
+    private readonly query: QueryBus,
+  ) {}
+
+  async create(createSaleDto: CreateSaleDto): Promise<Sale> {
+    // Create the sale
+    // Register items sales
+    // Emit event for generate a invoice
   }
 
   findAll() {

@@ -15,10 +15,12 @@ import { PaymentsModule } from './payments/payments.module';
 import { ReportsModule } from './reports/reports.module';
 import { FilesModule } from './files/files.module';
 import { CustomersModule } from './customers/customers.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Global()
 @Module({
   imports: [
+    EventEmitterModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [appConfig],

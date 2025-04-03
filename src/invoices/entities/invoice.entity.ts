@@ -2,9 +2,7 @@ import { Customer } from "@/customers/entities/customer";
 import { Sale } from "@/sales/entities/sale.entity";
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({
-    name: "invoices"
-})
+@Entity({ name: "invoices" })
 export class Invoice {
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -17,6 +15,4 @@ export class Invoice {
 
     @Column("decimal", { precision: 10, scale: 2 })
     total: number;
-
-
 }
