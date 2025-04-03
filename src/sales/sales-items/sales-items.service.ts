@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
-import { CreateSalesItemDto } from './dto/create-sales-item.dto';
-import { UpdateSalesItemDto } from './dto/update-sales-item.dto';
+import { CreateSalesItemDto } from './dto/create-sale-item.dto';
+import { UpdateSalesItemDto } from './dto/update-sale-item.dto';
 import { CommandBus, Query, QueryBus } from '@nestjs/cqrs';
 import { PaginationOptionsDto } from '@/common/dtos/pagination-options.dto';
 import { PaginationResultDto } from '@/common/dtos/pagination-result.dto';

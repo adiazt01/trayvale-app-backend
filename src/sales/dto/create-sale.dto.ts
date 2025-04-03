@@ -1,15 +1,16 @@
-import { IsNumber, Min } from "class-validator";
+import { IsArray, IsNumber, Min, ValidateNested } from "class-validator";
+import { SaleItem } from "../sales-items/entities/sales-item.entity";
+import { Type } from "class-transformer";
+import { CreateSaleItemDto } from "../sales-items/dto/create-sale-item.dto";
+import { CreatePaymentDto } from "@/payments/dto/create-payment.dto";
 
 export class CreateSaleDto {
-    @IsNumber()
-    @Min(1)
-    productId: number;
+    @IsArray({ message: "Sale items must be an array" })
+    @ValidateNested({ each: true })
+    @Type(() => CreateSaleItemDto)
+    saleItems: CreateSaleItemDto[];
 
-    @IsNumber()
-    @Min(1)
-    quantity: number;
-
-    @IsNumber()
-    @Min(0)
-    price: number;
+    @ValidateNested()
+    @Type(() => CreatePaymentDto)
+    payment: CreatePaymentDto;
 }

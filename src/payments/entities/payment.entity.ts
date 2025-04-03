@@ -21,8 +21,8 @@ export class Payment {
     @Column("text", { nullable: true })
     transactionId: string | null;
 
-    @ManyToOne(() => Sale, (sale) => sale.payments, { eager: true })
-    sale: Sale;
+    @ManyToOne(() => Sale, (sale) => sale.payment, { eager: true,nullable: true })
+    sale?: Sale;
 
     @Column("enum", {
         enum: PaymentStatus,

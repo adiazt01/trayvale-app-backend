@@ -14,9 +14,23 @@ export class SalesService {
   ) {}
 
   async create(createSaleDto: CreateSaleDto): Promise<Sale> {
+    this.logger.log('Creating sale', createSaleDto);
     // Create the sale
     // Register items sales
     // Emit event for generate a invoice
+    try {
+      const sale = await this.command.execute(
+        new CreateSaleCommand(createSaleDto),
+      );
+
+      
+      this.logger.log('Sale created successfully', sale);
+
+      return sale;
+    } catch (error) {
+      this.logger.error('Error creating sale', error);
+      throw new Error('Error creating sale');
+    }
   }
 
   findAll() {

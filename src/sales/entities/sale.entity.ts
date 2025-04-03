@@ -9,13 +9,10 @@ export class Sale {
     id: string;
 
     @OneToMany(() => SaleItem, (item) => item.sale, { cascade: ['insert', 'update'] })
-    items: SaleItem[];
+    saleItems: SaleItem[];
 
-    @OneToMany(() => Payment, (payment) => payment.sale, { eager: true })
-    payments: Payment[];
-
-    @OneToOne(() => Invoice, (invoice) => invoice.sale, { eager: true })
-    invoice: Invoice;
+    @OneToOne(() => Payment, (payment) => payment.sale, { eager: true })
+    payment: Payment;
 
     @Column("decimal", { precision: 10, scale: 2, nullable: true, default: null })
     total?: number | null;

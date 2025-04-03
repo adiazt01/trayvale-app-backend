@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { SalesItemsService } from './sales-items.service';
-import { CreateSalesItemDto } from './dto/create-sales-item.dto';
-import { UpdateSalesItemDto } from './dto/update-sales-item.dto';
+import { CreateSalesItemDto } from './dto/create-sale-item.dto';
+import { UpdateSalesItemDto } from './dto/update-sale-item.dto';
 import { PaginationOptionsDto } from '@/common/dtos/pagination-options.dto';
 
 @Controller('sales-items')
