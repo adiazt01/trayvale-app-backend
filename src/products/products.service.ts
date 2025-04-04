@@ -8,6 +8,8 @@ import { FindOneProductQuery } from './queries/impls/find-one-product.query';
 import { PaginationResultDto } from '@/common/dtos/pagination-result.dto';
 import { Product } from './entities/product.entity';
 import { PaginationProductOptionsDto } from './dto/pagination-product-options.dto';
+import { UpdateProductCommand } from './commands/impls/update-product.command';
+import { RemoveProductCommand } from './commands/impls/remove-product.command';
 
 @Injectable()
 export class ProductsService {
@@ -54,6 +56,74 @@ export class ProductsService {
     }
   }
 
+  async findOne(id: string) {
+    try {
+      const product = await this.queryBus.execute(
+        new FindOneProductQuery(id),
+      );
+
+      if (!product) {
+        throw new NotFoundException(
+          `Product with id ${id} not found`,
+        );
+      }
+
+      return product;
+    } catch (error) {
+      this.logger.error('Error fetching product', error);
+
+      throw new InternalServerErrorException(
+        'Error fetching product',
+      );
+    }
+  }
+
+  async update(id: string, updateProductDto: UpdateProductDto): Promise<any> {
+    try {
+      await this.findOne(id);
+
+      const updateProduct = await this.commandBus.execute(
+        new UpdateProductCommand(
+          id,
+          updateProductDto,
+        ));
+
+      return updateProduct;
+    } catch (error) {
+      this.logger.error('Error updating product', error);
+
+      throw new InternalServerErrorException(
+        'Error updating product',
+      );
+    }
+  }
+
+  // TODO: Implement remove method
+  async remove(id: string) {
+    try {
+      const product = await this.findOne(id);
+
+      if (!product) {
+        throw new NotFoundException(
+          `Product with id ${id} not found`,
+        );
+      }
+
+      await this.commandBus.execute(
+        new RemoveProductCommand(id),
+      );
+
+      return { message: 'Product removed successfully' };
+    }
+    catch (error) { 
+      this.logger.error('Error removing product', error);
+
+      throw new InternalServerErrorException(
+        'Error removing product',
+      );
+    }
+  }
+
   async validateProducts(paginationProductsOptionsDto: PaginationProductOptionsDto): Promise<Product[]> {
     try {
       const productsFound = await this.queryBus.execute(
@@ -78,36 +148,4 @@ export class ProductsService {
       );
     }
   }
-
-  async findOne(id: string) {
-      try {
-        const product = await this.queryBus.execute(
-          new FindOneProductQuery(id),
-        );
-
-        if (!product) {
-          throw new NotFoundException(
-            `Product with id ${id} not found`,
-          );
-        }
-
-        return product;
-      } catch (error) {
-        this.logger.error('Error fetching product', error);
-
-        throw new InternalServerErrorException(
-          'Error fetching product',
-        );
-      }
-    }
-
-    // TODO: Implement update method
-    update(id: string, updateProductDto: UpdateProductDto) {
-      return `This action updates a #${id} product`;
-    }
-
-    // TODO: Implement remove method
-    remove(id: string) {
-      return `This action removes a #${id} product`;
-    }
-  }
+}

@@ -22,18 +22,18 @@ export class ProductsController {
     return this.productsService.findAll(paginationDto);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-  //   return this.productsService.findOne(id);
-  // }
+  @Get(':id')
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.productsService.findOne(id);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateProductDto: UpdateProductDto) {
-  //   return this.productsService.update(id, updateProductDto);
-  // }
+  @Patch(':id')
+  update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateProductDto: UpdateProductDto) {
+    return this.productsService.update(id, updateProductDto);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id', new ParseUUIDPipe()) id: string) {
-  //   return this.productsService.remove(id);
-  // }
+  @Delete(':id')
+  remove(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.productsService.remove(id);
+  }
 }
