@@ -7,6 +7,7 @@ import { commandsHandlers } from './commands/handlers';
 import { queriesHandlers } from './queries/handlers';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Sale } from './entities/sale.entity';
+import { ProductsService } from '@/products/products.service';
 
 @Module({
   imports: [
@@ -14,12 +15,15 @@ import { Sale } from './entities/sale.entity';
     TypeOrmModule.forFeature([
       Sale
     ]),
-    ...commandsHandlers,
-    ...queriesHandlers,
     SalesItemsModule
   ],
   controllers: [SalesController],
-  providers: [SalesService],
+  providers: [
+    SalesService,
+    ProductsService,
+    ...commandsHandlers,
+    ...queriesHandlers,
+  ],
   exports: [SalesService, TypeOrmModule],
 })
 export class SalesModule {}

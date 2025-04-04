@@ -9,17 +9,24 @@ export class CreateSaleItemHandler implements ICommandHandler<CreateSaleItemComm
   constructor(
     @InjectRepository(SaleItem)
     private readonly saleItemRepository: Repository<SaleItem>,
-  ) {}
+  ) { }
 
   async execute(command: CreateSaleItemCommand) {
     const { createSaleItemDto } = command;
-    const { price, productId, quantity } = createSaleItemDto;
-    
-    const saleItem = this.saleItemRepository.create({
-      product: { id: productId },
-      quantity,
-      unitPrice: price,
-      totalPrice: price * quantity,
-    });
-    }
+    const { productId, quantity, saleId } = createSaleItemDto;
+
+    // const saleItem = this.saleItemRepository.create({
+    //   product: { 
+    //     id: productId
+    //   },
+    //   sale: {
+    //     id: saleId
+    //   },
+    //   quantity: quantity,
+    //   unitPrice: price,
+    //   totalPrice: price * quantity
+    // })
+
+    // return await this.saleItemRepository.save(saleItem);
+  }
 }

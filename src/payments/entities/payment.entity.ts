@@ -13,7 +13,7 @@ export class Payment {
     @Column("enum", {
         enum: PaymentMethod,
     })
-    paymentMethod: PaymentMethod;
+    method: PaymentMethod;
 
     @Column("decimal")
     amount: number;
@@ -21,7 +21,7 @@ export class Payment {
     @Column("text", { nullable: true })
     transactionId: string | null;
 
-    @ManyToOne(() => Sale, (sale) => sale.payment, { eager: true,nullable: true })
+    @ManyToOne(() => Sale, (sale) => sale.payment, { nullable: true })
     sale?: Sale;
 
     @Column("enum", {

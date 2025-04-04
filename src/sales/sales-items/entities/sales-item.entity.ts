@@ -12,15 +12,15 @@ export class SaleItem {
     @ManyToOne(() => Sale, (sale) => sale.saleItems, { onDelete: "CASCADE" })
     sale: Sale;
 
-    @ManyToOne(() => Product, { eager: true })
+    @ManyToOne(() => Product, (product) => product.saleItems, { eager: true })
     product: Product;
 
-    @Column("number")
+    @Column("numeric")
     quantity: number;
 
-    @Column("number")
-    unitPrice: number;
+    @Column("numeric")
+    price: number;
 
-    @Column("number")
+    @Column("numeric")
     totalPrice: number;
 }

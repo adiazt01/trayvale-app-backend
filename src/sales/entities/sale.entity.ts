@@ -14,6 +14,6 @@ export class Sale {
     @OneToOne(() => Payment, (payment) => payment.sale, { eager: true })
     payment: Payment;
 
-    @Column("decimal", { precision: 10, scale: 2, nullable: true, default: null })
-    total?: number | null;
+    @OneToOne(() => Invoice, (invoice) => invoice.sale, { nullable: true })
+    invoice?: Invoice;
 }

@@ -5,18 +5,18 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateProductCommand } from './commands/impls/create-product.command';
 import { FindAllProductsQuery } from './queries/impls/find-all-products.query';
 import { FindOneProductQuery } from './queries/impls/find-one-product.query';
-import { PaginationOptionsDto } from '@/common/dtos/pagination-options.dto';
 import { PaginationResultDto } from '@/common/dtos/pagination-result.dto';
 import { Product } from './entities/product.entity';
+import { PaginationProductOptionsDto } from './dto/pagination-product-options.dto';
 
 @Injectable()
 export class ProductsService {
   private readonly logger = new Logger(ProductsService.name);
-  
-  constructor (
+
+  constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-  ) {}
+  ) { }
 
   async create(createProductDto: CreateProductDto) {
     try {
@@ -31,14 +31,14 @@ export class ProductsService {
       return command;
     } catch (error) {
       this.logger.error('Error creating product', error);
-      
+
       throw new InternalServerErrorException(
         'Error creating product',
       );
     }
   }
 
-  async findAll(paginationDto?: PaginationOptionsDto): Promise<PaginationResultDto<Product>> {
+  async findAll(paginationDto?: PaginationProductOptionsDto): Promise<PaginationResultDto<Product>> {
     try {
       const products = await this.queryBus.execute(
         new FindAllProductsQuery(paginationDto),
@@ -54,35 +54,60 @@ export class ProductsService {
     }
   }
 
-  async findOne(id: string) {
+  async validateProducts(paginationProductsOptionsDto: PaginationProductOptionsDto): Promise<Product[]> {
     try {
-      const product = await this.queryBus.execute(
-        new FindOneProductQuery(id),
+      const productsFound = await this.queryBus.execute(
+        new FindAllProductsQuery(
+          paginationProductsOptionsDto
+        ),
       );
 
-      if (!product) {
-        throw new NotFoundException(
-          `Product with id ${id} not found`,
-        );
+
+      if (productsFound.data.length !== paginationProductsOptionsDto.uuids.length) {
+        throw new NotFoundException('Some products not found');
       }
 
-      return product;
-    } catch (error) {
-      this.logger.error('Error fetching product', error); 
+      return productsFound.data;
+    }
+
+    catch (error) {
+      this.logger.error('Error validating products', error);
 
       throw new InternalServerErrorException(
-        'Error fetching product',
+        'Error validating products',
       );
     }
   }
 
-  // TODO: Implement update method
-  update(id: string, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
+  async findOne(id: string) {
+      try {
+        const product = await this.queryBus.execute(
+          new FindOneProductQuery(id),
+        );
 
-  // TODO: Implement remove method
-  remove(id: string) {
-    return `This action removes a #${id} product`;
+        if (!product) {
+          throw new NotFoundException(
+            `Product with id ${id} not found`,
+          );
+        }
+
+        return product;
+      } catch (error) {
+        this.logger.error('Error fetching product', error);
+
+        throw new InternalServerErrorException(
+          'Error fetching product',
+        );
+      }
+    }
+
+    // TODO: Implement update method
+    update(id: string, updateProductDto: UpdateProductDto) {
+      return `This action updates a #${id} product`;
+    }
+
+    // TODO: Implement remove method
+    remove(id: string) {
+      return `This action removes a #${id} product`;
+    }
   }
-}

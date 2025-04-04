@@ -1,5 +1,6 @@
 import { BaseEntity } from "@/common/entities/base.entity";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { SaleItem } from "@/sales/sales-items/entities/sales-item.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Product extends BaseEntity {
@@ -14,4 +15,7 @@ export class Product extends BaseEntity {
 
     @Column("decimal")
     price: number;
+
+    @OneToMany(() => SaleItem, (saleItem) => saleItem.product)
+    saleItems: SaleItem[];
 }

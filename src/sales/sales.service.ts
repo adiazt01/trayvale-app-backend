@@ -1,35 +1,44 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
-import { Sale } from './entities/sale.entity';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { CreateSaleCommand } from './commands/impls/create-sale.command';
+import { ProductsService } from '@/products/products.service';
+import { calculateSalePrices } from './utils/sales.utils';
 
 @Injectable()
 export class SalesService {
   private readonly logger = new Logger(SalesService.name);
 
-  constructor (
+  constructor(
     private readonly command: CommandBus,
     private readonly query: QueryBus,
-  ) {}
+    private readonly productsService: ProductsService,
+  ) { }
 
-  async create(createSaleDto: CreateSaleDto): Promise<Sale> {
+  async create(createSaleDto: CreateSaleDto) {
     this.logger.log('Creating sale', createSaleDto);
-    // Create the sale
-    // Register items sales
-    // Emit event for generate a invoice
+
     try {
+      const productsFound = await this.productsService.validateProducts({
+        uuids: createSaleDto.saleItems.map((item) => item.productId),
+      })
+
+      calculateSalePrices(createSaleDto, productsFound);
+
       const sale = await this.command.execute(
-        new CreateSaleCommand(createSaleDto),
+        new CreateSaleCommand(createSaleDto, productsFound),
       );
 
-      
       this.logger.log('Sale created successfully', sale);
 
       return sale;
     } catch (error) {
       this.logger.error('Error creating sale', error);
-      throw new Error('Error creating sale');
+      throw new InternalServerErrorException(
+        'Error creating sale',
+        error,
+      );
     }
   }
 

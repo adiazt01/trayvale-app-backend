@@ -1,10 +1,10 @@
 import { Command } from "@nestjs/cqrs";
 import { SaleItem } from "../../entities/sales-item.entity";
-import { CreateSalesItemDto } from "../../dto/create-sale-item.dto";
+import { CreateSaleItemDto } from "../../dto/create-sale-item.dto";
 
-export class CreateSaleItemCommand extends Command<SaleItem> {
+export class CreateSaleItemCommand extends Command<any> {
     constructor(
-        public readonly createSaleItemDto: CreateSalesItemDto,
+        public readonly createSaleItemDto: CreateSaleItemDto,
     ) {
         super();
     }

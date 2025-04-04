@@ -10,10 +10,10 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-    whitelist: true,
-    forbidNonWhitelisted: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
     })
-   );
+  );
 
   const config = new DocumentBuilder()
     .setTitle('Trayvale API')

@@ -3,14 +3,16 @@ import { PaymentMethod } from "../enums/payment-method.enum";
 import { PaymentStatus } from "../enums/payment-status.enum";
 
 export class CreatePaymentDto {
+    @IsString()
     @IsEnum(PaymentMethod)
-    paymentMethod: PaymentMethod;
+    method: PaymentMethod;
 
     @IsNumber({
         maxDecimalPlaces: 2,
     })
     amount: number;
 
+    @IsString()
     @IsEnum(PaymentStatus)
     status: PaymentStatus;
     
@@ -18,7 +20,6 @@ export class CreatePaymentDto {
     @IsString()
     transactionId: string | null;
 
-    @IsOptional()
     @IsString()
     saleId: string | null;
 }
