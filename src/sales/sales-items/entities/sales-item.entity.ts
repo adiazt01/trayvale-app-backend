@@ -9,7 +9,7 @@ export class SaleItem {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ManyToOne(() => Sale, (sale) => sale.saleItems, { onDelete: "CASCADE" })
+    @ManyToOne(() => Sale, (sale) => sale.saleItems, { onDelete: "CASCADE",  })
     sale: Sale;
 
     @ManyToOne(() => Product, (product) => product.saleItems, { eager: true })

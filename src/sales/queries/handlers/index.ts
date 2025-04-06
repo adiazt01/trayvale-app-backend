@@ -1,1 +1,5 @@
-export const queriesHandlers = []
+import { FindAllSalesHandler } from "./find-all-sales.handler";
+
+export const queriesHandlers = [
+    FindAllSalesHandler
+]

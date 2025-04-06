@@ -5,6 +5,8 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateSaleCommand } from './commands/impls/create-sale.command';
 import { ProductsService } from '@/products/products.service';
 import { calculateSalePrices } from './utils/sales.utils';
+import { PaginationSaleOptionsDto } from './dto/pagination-options-sale.dto';
+import { FindAllSalesQuery } from './queries/impls/find-all-sales.query';
 
 @Injectable()
 export class SalesService {
@@ -42,8 +44,21 @@ export class SalesService {
     }
   }
 
-  findAll() {
-    return `This action returns all sales`;
+  async findAll(paginationSaleOptionsDto: PaginationSaleOptionsDto) {
+    try {
+      const sales = await this.query.execute(
+        new FindAllSalesQuery(paginationSaleOptionsDto),
+      );
+
+      return sales;
+    } catch (error) {
+      console.log(error)
+      this.logger.error('Error finding sales', error);
+      throw new InternalServerErrorException(
+        'Error finding sales',
+        error,
+      );
+    }
   }
 
   findOne(id: number) {
