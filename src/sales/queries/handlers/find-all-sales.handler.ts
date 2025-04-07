@@ -20,9 +20,9 @@ export class FindAllSalesHandler implements IQueryHandler<FindAllSalesQuery> {
 
         const queryBuilder = this.salesRepository
             .createQueryBuilder("sale")
-            .leftJoinAndSelect("sale.saleItems", "saleItems")
-            .leftJoinAndSelect("saleItems.product", "product")
-            .leftJoinAndSelect("sale.payment", "payment")
+            .innerJoinAndSelect("sale.saleItems", "saleItems")
+            .innerJoinAndSelect("saleItems.product", "product")
+            .innerJoinAndSelect("sale.payment", "payment")
 
         queryBuilder
             .orderBy("sale.createdAt", order)

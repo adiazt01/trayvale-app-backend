@@ -15,7 +15,6 @@ export class SalesController {
 
   @Get()
   findAll(@Query() paginationSaleOptionsDto?: PaginationSaleOptionsDto) {
-    console.log(paginationSaleOptionsDto);
     return this.salesService.findAll(paginationSaleOptionsDto);
   }
 

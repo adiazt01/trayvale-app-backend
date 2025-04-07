@@ -14,7 +14,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     })
   );
-
+  
   const config = new DocumentBuilder()
     .setTitle('Trayvale API')
     .setDescription('The Trayvale API description')

@@ -36,6 +36,7 @@ export class SalesService {
 
       return sale;
     } catch (error) {
+      console.log(error)
       this.logger.error('Error creating sale', error);
       throw new InternalServerErrorException(
         'Error creating sale',

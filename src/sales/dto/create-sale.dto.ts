@@ -1,4 +1,4 @@
-import { IsArray, IsUUID, Min, ValidateNested } from "class-validator";
+import { IsArray, IsNumber, IsOptional, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 import { CreateSaleItemDto } from "../sales-items/dto/create-sale-item.dto";
 import { CreatePaymentDto } from "@/payments/dto/create-payment.dto";
@@ -15,10 +15,18 @@ export class CreateSaleItemInSaleDto extends PickType(CreateSaleItemDto, [
     "productId",
     "quantity",
 ] as const) {
+    @IsOptional()
     @Type(() => Number)
+    @IsNumber({
+        maxDecimalPlaces: 2,
+    })
     price: number;
 
+    @IsOptional()
     @Type(() => Number)
+    @IsNumber({
+        maxDecimalPlaces: 2,
+    })
     totalPrice: number;
 }
 
@@ -29,7 +37,7 @@ export class CreateSaleDto {
     @Type(() => CreateSaleItemInSaleDto)
     saleItems: CreateSaleItemInSaleDto[];
 
-    @ValidateNested()
     @Type(() => PaymentInSaleDto)
+    @ValidateNested()
     payment: PaymentInSaleDto;
 }

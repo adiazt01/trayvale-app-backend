@@ -30,6 +30,5 @@ export function createPaginationResult<T>(
         itemCount,
         paginationOptionsDto: paginationOptions,
     });
-
     return new PaginationResultDto(entities, paginationMetaData);
 }

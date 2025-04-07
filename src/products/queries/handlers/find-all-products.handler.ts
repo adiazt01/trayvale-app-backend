@@ -30,6 +30,8 @@ export class FindAllProductsHandler implements IQueryHandler<FindAllProductsQuer
     const itemCount = await queryBuilder.getCount();
     const { entities } = await queryBuilder.getRawAndEntities();
 
+    console.log(entities)
+
     return createPaginationResult(entities, itemCount, paginationProductsOptionsDto);
   }
 }
