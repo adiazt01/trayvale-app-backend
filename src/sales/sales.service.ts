@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -7,6 +7,7 @@ import { ProductsService } from '@/products/products.service';
 import { calculateSalePrices } from './utils/sales.utils';
 import { PaginationSaleOptionsDto } from './dto/pagination-options-sale.dto';
 import { FindAllSalesQuery } from './queries/impls/find-all-sales.query';
+import { FindOneSaleQuery } from './queries/impls/find-one-sale.query';
 
 @Injectable()
 export class SalesService {
@@ -36,7 +37,6 @@ export class SalesService {
 
       return sale;
     } catch (error) {
-      console.log(error)
       this.logger.error('Error creating sale', error);
       throw new InternalServerErrorException(
         'Error creating sale',
@@ -53,7 +53,6 @@ export class SalesService {
 
       return sales;
     } catch (error) {
-      console.log(error)
       this.logger.error('Error finding sales', error);
       throw new InternalServerErrorException(
         'Error finding sales',
@@ -62,15 +61,34 @@ export class SalesService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} sale`;
+  async findOne(id: string) {
+    try {
+      const sale = await this.query.execute(
+        new FindOneSaleQuery(id),
+      );
+
+      if (!sale) {
+        throw new NotFoundException(`Sale with id ${id} not found`);
+      }
+
+      return sale;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+
+      throw new InternalServerErrorException(
+        'Error finding sale',
+        error
+      )
+    }
   }
 
-  update(id: number, updateSaleDto: UpdateSaleDto) {
+  update(id: string, updateSaleDto: UpdateSaleDto) {
     return `This action updates a #${id} sale`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} sale`;
   }
 }
