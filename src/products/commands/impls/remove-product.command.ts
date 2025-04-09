@@ -1,9 +1,7 @@
-import { Command } from "@nestjs/cqrs";
+import { Command } from '@nestjs/cqrs';
 
 export class RemoveProductCommand extends Command<any> {
-    constructor(
-        public readonly id: string,
-    ) {
-        super();
-    }
+  constructor(public readonly id: string) {
+    super();
+  }
 }

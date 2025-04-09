@@ -1,4 +1,4 @@
 export enum PaymentStatus {
-    CONFIRMED = 'CONFIRMED',
-    PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  PENDING = 'PENDING',
 }

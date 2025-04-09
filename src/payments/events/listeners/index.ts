@@ -1,5 +1,3 @@
-import { PaymentCreatedListener } from "./payment-created.listener";
+import { PaymentCreatedListener } from './payment-created.listener';
 
-export const paymentsListeners = [
-    PaymentCreatedListener,
-]
+export const paymentsListeners = [PaymentCreatedListener];

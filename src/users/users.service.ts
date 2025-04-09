@@ -1,4 +1,9 @@
-import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from './commands/impl/create-user.command';
@@ -13,14 +18,14 @@ export class UsersService {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-  ) { }
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<Omit<User, 'password'>> {
     this.logger.log(`Creating user with email: ${createUserDto.email}`);
 
     try {
       const user = await this.commandBus.execute(
-        new CreateUserCommand(createUserDto)
+        new CreateUserCommand(createUserDto),
       );
 
       this.logger.log(`User created successfully: ${user.email}`);
@@ -30,16 +35,14 @@ export class UsersService {
       this.logger.error('Failed to create user', error.stack);
 
       throw new InternalServerErrorException(
-        'An error occurred while creating the user'
+        'An error occurred while creating the user',
       );
     }
   }
 
-  async findOne(id:number): Promise<User | null> {
+  async findOne(id: number): Promise<User | null> {
     try {
-      const user = await this.queryBus.execute(
-        new FindOneUserQuery(id)
-      );
+      const user = await this.queryBus.execute(new FindOneUserQuery(id));
 
       if (!user) {
         throw new NotFoundException(`User with id ${id} not found`);
@@ -48,9 +51,9 @@ export class UsersService {
       return user;
     } catch (error) {
       this.logger.error('Failed to find user', error.stack);
-      
+
       throw new InternalServerErrorException(
-        'An error occurred while finding the user'
+        'An error occurred while finding the user',
       );
     }
   }
@@ -58,7 +61,7 @@ export class UsersService {
   async findOneByEmail(email: string): Promise<User | null> {
     try {
       const user = await this.queryBus.execute(
-        new FindOneUserByEmailQuery(email)
+        new FindOneUserByEmailQuery(email),
       );
 
       if (!user) {
@@ -68,9 +71,9 @@ export class UsersService {
       return user;
     } catch (error) {
       this.logger.error('Failed to find user', error.stack);
-      
+
       throw new InternalServerErrorException(
-        'An error occurred while finding the user'
+        'An error occurred while finding the user',
       );
     }
   }

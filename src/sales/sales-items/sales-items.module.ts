@@ -10,17 +10,12 @@ import { SaleItem } from './entities/sales-item.entity';
 @Module({
   imports: [
     CqrsModule,
-    TypeOrmModule.forFeature([
-      SaleItem
-    ]),
+    TypeOrmModule.forFeature([SaleItem]),
     ...commandsHandlers,
     ...queriesHandlers,
   ],
   controllers: [SalesItemsController],
   providers: [SalesItemsService],
-  exports: [
-    SalesItemsService,
-    TypeOrmModule
-  ]
+  exports: [SalesItemsService, TypeOrmModule],
 })
 export class SalesItemsModule {}

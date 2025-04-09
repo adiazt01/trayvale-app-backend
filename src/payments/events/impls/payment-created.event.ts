@@ -1,7 +1,5 @@
-import { CreatePaymentDto } from "../../dto/create-payment.dto";
+import { CreatePaymentDto } from '../../dto/create-payment.dto';
 
 export class PaymentCreatedEvent {
-    constructor (
-        public createPaymentDto: CreatePaymentDto
-    ) {}
+  constructor(public createPaymentDto: CreatePaymentDto) {}
 }

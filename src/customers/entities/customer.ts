@@ -1,21 +1,21 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
-    name: "customers",
+  name: 'customers',
 })
 export class Customer {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Index()
-    @Column('text')
-    fullName: string;
+  @Index()
+  @Column('text')
+  fullName: string;
 
-    @Index()
-    @Column('text', { nullable: true, default: null })
-    nickname?: string;
+  @Index()
+  @Column('text', { nullable: true, default: null })
+  nickname?: string;
 
-    @Index()
-    @Column('text', { nullable: true, default: null })
-    phone?: string;
+  @Index()
+  @Column('text', { nullable: true, default: null })
+  phone?: string;
 }

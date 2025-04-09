@@ -1,5 +1,3 @@
-import { CreateUserHandler } from "./create-user.handler";
+import { CreateUserHandler } from './create-user.handler';
 
-export const commandHandlers = [
-    CreateUserHandler
-]
+export const commandHandlers = [CreateUserHandler];

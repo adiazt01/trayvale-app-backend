@@ -13,11 +13,11 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
-    })
+    }),
   );
 
   app.useGlobalFilters(new HttpExceptionFilter());
-  
+
   const config = new DocumentBuilder()
     .setTitle('Trayvale API')
     .setDescription('The Trayvale API description')

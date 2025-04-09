@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -9,8 +13,8 @@ import { FindOneCustomerQuery } from './queries/impls/find-one-customer.query';
 @Injectable()
 export class CustomersService {
   private readonly logger = new Logger(CustomersService.name);
-  
-  constructor (
+
+  constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
@@ -27,9 +31,9 @@ export class CustomersService {
 
       return customer;
     } catch (error) {
-      this.logger.error('Error creating customer', error);  
+      this.logger.error('Error creating customer', error);
       throw new InternalServerErrorException('Error creating customer');
-    } 
+    }
   }
 
   async findAll() {
@@ -52,8 +56,7 @@ export class CustomersService {
       );
 
       return customer;
-    }
-    catch (error) {
+    } catch (error) {
       this.logger.error('Error fetching customer', error);
       throw new InternalServerErrorException('Error fetching customer');
     }

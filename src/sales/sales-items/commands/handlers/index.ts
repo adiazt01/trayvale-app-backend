@@ -1,1 +1,1 @@
-export const commandsHandlers = []
+export const commandsHandlers = [];

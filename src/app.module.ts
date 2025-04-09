@@ -54,14 +54,10 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     InvoicesModule,
     PaymentsModule,
     ReportsModule,
-    FilesModule
+    FilesModule,
   ],
   controllers: [],
-  providers: [
-  ],
-  exports: [
-    ConfigModule,
-    TypeOrmModule,
-  ]
+  providers: [],
+  exports: [ConfigModule, TypeOrmModule],
 })
-export class AppModule { }
+export class AppModule {}

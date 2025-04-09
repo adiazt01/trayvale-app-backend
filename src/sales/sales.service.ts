@@ -1,4 +1,9 @@
-import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -17,7 +22,7 @@ export class SalesService {
     private readonly command: CommandBus,
     private readonly query: QueryBus,
     private readonly productsService: ProductsService,
-  ) { }
+  ) {}
 
   async create(createSaleDto: CreateSaleDto) {
     this.logger.log('Creating sale', createSaleDto);
@@ -25,7 +30,7 @@ export class SalesService {
     try {
       const productsFound = await this.productsService.validateProducts({
         uuids: createSaleDto.saleItems.map((item) => item.productId),
-      })
+      });
 
       calculateSalePrices(createSaleDto, productsFound);
 
@@ -38,10 +43,7 @@ export class SalesService {
       return sale;
     } catch (error) {
       this.logger.error('Error creating sale', error);
-      throw new InternalServerErrorException(
-        'Error creating sale',
-        error,
-      );
+      throw new InternalServerErrorException('Error creating sale', error);
     }
   }
 
@@ -54,18 +56,13 @@ export class SalesService {
       return sales;
     } catch (error) {
       this.logger.error('Error finding sales', error);
-      throw new InternalServerErrorException(
-        'Error finding sales',
-        error,
-      );
+      throw new InternalServerErrorException('Error finding sales', error);
     }
   }
 
   async findOne(id: string) {
     try {
-      const sale = await this.query.execute(
-        new FindOneSaleQuery(id),
-      );
+      const sale = await this.query.execute(new FindOneSaleQuery(id));
 
       if (!sale) {
         throw new NotFoundException(`Sale with id ${id} not found`);
@@ -77,10 +74,7 @@ export class SalesService {
         throw error;
       }
 
-      throw new InternalServerErrorException(
-        'Error finding sale',
-        error
-      )
+      throw new InternalServerErrorException('Error finding sale', error);
     }
   }
 

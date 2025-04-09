@@ -1,8 +1,8 @@
-import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { FindOneSaleQuery } from "../impls/find-one-sale.query";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Sale } from "@/sales/entities/sale.entity";
-import { Repository } from "typeorm";
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import { FindOneSaleQuery } from '../impls/find-one-sale.query';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Sale } from '@/sales/entities/sale.entity';
+import { Repository } from 'typeorm';
 
 @QueryHandler(FindOneSaleQuery)
 export class FindOneSaleHandler implements IQueryHandler<FindOneSaleQuery> {

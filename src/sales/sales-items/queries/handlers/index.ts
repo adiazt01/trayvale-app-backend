@@ -1,1 +1,1 @@
-export const queriesHandlers = []
+export const queriesHandlers = [];

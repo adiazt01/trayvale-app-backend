@@ -1,12 +1,14 @@
-import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { RemoveProductCommand } from "../impls/remove-product.command";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Product } from "@/products/entities/product.entity";
-import { Repository } from "typeorm";
-import { NotFoundException } from "@nestjs/common";
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { RemoveProductCommand } from '../impls/remove-product.command';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Product } from '@/products/entities/product.entity';
+import { Repository } from 'typeorm';
+import { NotFoundException } from '@nestjs/common';
 
 @CommandHandler(RemoveProductCommand)
-export class RemoveProductHandler implements ICommandHandler<RemoveProductCommand> {
+export class RemoveProductHandler
+  implements ICommandHandler<RemoveProductCommand>
+{
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,

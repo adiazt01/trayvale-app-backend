@@ -23,13 +23,13 @@ import { EncryptionService } from 'src/common/services/encryption.service';
       useFactory: (configService: ConfigService) => ({
         secret: configService.get(EnviorementsKeys.JWT_SECRET),
         signOptions: {
-          expiresIn: configService.get(EnviorementsKeys.JWT_EXPIRATION_TIME),  
+          expiresIn: configService.get(EnviorementsKeys.JWT_EXPIRATION_TIME),
         },
-      })
+      }),
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService, UsersService, JwtStrategy, EncryptionService],
   exports: [PassportModule, JwtModule, JwtStrategy],
 })
-export class AuthModule { }
+export class AuthModule {}

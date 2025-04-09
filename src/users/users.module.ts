@@ -8,17 +8,12 @@ import { queriesHandlers } from './queries/handlers';
 import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
-  imports: [
-    CqrsModule,
-    TypeOrmModule.forFeature([
-      User
-    ]),
-  ],
+  imports: [CqrsModule, TypeOrmModule.forFeature([User])],
   providers: [
-    UsersService, 
+    UsersService,
     EncryptionService,
     ...commandHandlers,
-    ...queriesHandlers
+    ...queriesHandlers,
   ],
   exports: [UsersService, TypeOrmModule],
 })

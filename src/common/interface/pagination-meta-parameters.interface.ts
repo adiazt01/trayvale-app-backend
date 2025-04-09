@@ -1,4 +1,4 @@
-import { PaginationOptionsDto } from "../dtos/pagination-options.dto";
+import { PaginationOptionsDto } from '../dtos/pagination-options.dto';
 
 export interface PaginationMetadataParameters {
   paginationOptionsDto: PaginationOptionsDto;

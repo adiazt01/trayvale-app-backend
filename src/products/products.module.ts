@@ -8,21 +8,9 @@ import { commandHandlers } from './commands/handlers';
 import { queriesHandlers } from './queries/handlers';
 
 @Module({
-  imports: [
-    CqrsModule,
-    TypeOrmModule.forFeature([
-      Product
-    ]),
-  ],
+  imports: [CqrsModule, TypeOrmModule.forFeature([Product])],
   controllers: [ProductsController],
-  providers: [
-    ProductsService,
-    ...commandHandlers,
-    ...queriesHandlers,
-  ],
-  exports: [
-    TypeOrmModule,
-    ProductsService
-  ]
+  providers: [ProductsService, ...commandHandlers, ...queriesHandlers],
+  exports: [TypeOrmModule, ProductsService],
 })
 export class ProductsModule {}

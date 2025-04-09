@@ -1,13 +1,15 @@
-import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { CreateProductCommand } from "../impls/create-product.command";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Product } from "@/products/entities/product.entity";
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CreateProductCommand } from '../impls/create-product.command';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Product } from '@/products/entities/product.entity';
 
 @CommandHandler(CreateProductCommand)
-export class CreateProductHandler implements ICommandHandler<CreateProductCommand> {
+export class CreateProductHandler
+  implements ICommandHandler<CreateProductCommand>
+{
   constructor(
-    @InjectRepository(Product) 
+    @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
   ) {}
 

@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { SalesItemsService } from './sales-items.service';
 import { CreateSaleItemDto } from './dto/create-sale-item.dto';
 import { UpdateSalesItemDto } from './dto/update-sale-item.dto';
@@ -12,7 +21,7 @@ export class SalesItemsController {
   // create(@Body() createSalesItemDto: CreateSalesItemDto | CreateSalesItemDto[]) {
   //   return this.salesItemsService.create(createSalesItemDto);
   // }
-  
+
   // @Get()
   // findAll(@Query() paginationOptions: PaginationOptionsDto) {
   //   return this.salesItemsService.findAll(paginationOptions);

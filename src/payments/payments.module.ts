@@ -7,11 +7,7 @@ import { paymentsListeners } from './events/listeners';
 import { paymentsCommandsHandlers } from './commands/handlers';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      Payment,
-    ])
-  ],
+  imports: [TypeOrmModule.forFeature([Payment])],
   controllers: [PaymentsController],
   providers: [
     PaymentsService,

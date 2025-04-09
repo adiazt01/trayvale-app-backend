@@ -7,14 +7,12 @@ import { CreatePaymentDto } from '@/payments/dto/create-payment.dto';
 
 @Injectable()
 export class PaymentCreatedListener {
-  constructor(
-    public readonly command: CommandBus,
-  ) {}
+  constructor(public readonly command: CommandBus) {}
 
   @OnEvent('payment.created', { async: true, promisify: true })
   async handleOrderCreatedEvent(event: PaymentCreatedEvent) {
     return await this.command.execute(
-      new CreatePaymentCommand(event.createPaymentDto)
-    )
+      new CreatePaymentCommand(event.createPaymentDto),
+    );
   }
 }

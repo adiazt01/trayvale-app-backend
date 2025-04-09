@@ -1,5 +1,3 @@
-import { CreatePaymentHandler } from "./create-payment.handler";
+import { CreatePaymentHandler } from './create-payment.handler';
 
-export const paymentsCommandsHandlers = [
-    CreatePaymentHandler
-]
+export const paymentsCommandsHandlers = [CreatePaymentHandler];

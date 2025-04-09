@@ -1,6 +1,11 @@
 import { CreateUserDto } from '@/users/dto/create-user.dto';
 import { UsersService } from '@/users/users.service';
-import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtPayload } from './interface/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -12,21 +17,27 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly encryptionService: EncryptionService,
-  ) { }
+  ) {}
 
   async signUp(createUserDto: CreateUserDto) {
-    const existingUser = await this.usersService.findOneByEmail(createUserDto.email);
+    const existingUser = await this.usersService.findOneByEmail(
+      createUserDto.email,
+    );
 
     if (existingUser) {
       throw new BadRequestException('User with this email already exists');
     }
 
     const newUser = await this.usersService.create(createUserDto);
-    
+
     return {
       ...newUser,
-      token: this.getJwtToken({ email: newUser.email, id: newUser.id, username: newUser.username }),
-    }
+      token: this.getJwtToken({
+        email: newUser.email,
+        id: newUser.id,
+        username: newUser.username,
+      }),
+    };
   }
 
   async signIn(loginUserDto: LoginUserDto) {
@@ -49,8 +60,12 @@ export class AuthService {
 
     return {
       ...userFound,
-      token: this.getJwtToken({ email: userFound.email, id: userFound.id, username: userFound.username }),
-    }
+      token: this.getJwtToken({
+        email: userFound.email,
+        id: userFound.id,
+        username: userFound.username,
+      }),
+    };
   }
 
   private getJwtToken(payload: JwtPayload) {

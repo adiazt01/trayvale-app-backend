@@ -1,7 +1,4 @@
-import { FindAllProductsHandler } from "./find-all-products.handler";
-import { FindOneProductHandler } from "./find-one-product.handler";
+import { FindAllProductsHandler } from './find-all-products.handler';
+import { FindOneProductHandler } from './find-one-product.handler';
 
-export const queriesHandlers = [
-    FindAllProductsHandler,
-    FindOneProductHandler
-]
+export const queriesHandlers = [FindAllProductsHandler, FindOneProductHandler];

@@ -8,21 +8,9 @@ import { CustomersService } from './customers.service';
 import { Customer } from './entities/customer';
 
 @Module({
-  imports: [
-    CqrsModule,
-    TypeOrmModule.forFeature([
-      Customer
-    ]),
-  ],
+  imports: [CqrsModule, TypeOrmModule.forFeature([Customer])],
   controllers: [CustomersController],
-  providers: [
-    CustomersService,
-    ...commandsHandlers,
-    ...queriesHandlers
-  ],
-  exports: [
-    CustomersService,
-    TypeOrmModule
-  ]
+  providers: [CustomersService, ...commandsHandlers, ...queriesHandlers],
+  exports: [CustomersService, TypeOrmModule],
 })
 export class CustomersModule {}

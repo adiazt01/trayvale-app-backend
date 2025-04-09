@@ -1,5 +1,3 @@
-import { CreateCustomerHandler } from "./create-customer.handler";
+import { CreateCustomerHandler } from './create-customer.handler';
 
-export const commandsHandlers = [
-    CreateCustomerHandler
-]
+export const commandsHandlers = [CreateCustomerHandler];

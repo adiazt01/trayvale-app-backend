@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { CreateSaleItemDto } from './dto/create-sale-item.dto';
 import { UpdateSalesItemDto } from './dto/update-sale-item.dto';
 import { CommandBus, Query, QueryBus } from '@nestjs/cqrs';
@@ -14,13 +18,15 @@ export class SalesItemsService {
   constructor(
     private readonly command: CommandBus,
     private readonly query: QueryBus,
-  ) { }
+  ) {}
 
-  async create(createSalesItemDto: CreateSaleItemDto | CreateSaleItemDto[]): Promise<SaleItem | SaleItem[]> {
+  async create(
+    createSalesItemDto: CreateSaleItemDto | CreateSaleItemDto[],
+  ): Promise<SaleItem | SaleItem[]> {
     try {
       if (Array.isArray(createSalesItemDto)) {
         const saleItems = await Promise.all(
-          createSalesItemDto.map(dto =>
+          createSalesItemDto.map((dto) =>
             this.command.execute(new CreateSaleItemCommand(dto)),
           ),
         );
@@ -64,7 +70,7 @@ export class SalesItemsService {
   // }
 
   // async update(id: number, updateSalesItemDto: UpdateSalesItemDto): Promise<SaleItem> {
-  //   try { 
+  //   try {
   //     await this.findOne(id);
 
   //     const saleItem = await this.command.execute(

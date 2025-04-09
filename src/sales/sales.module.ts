@@ -10,13 +10,7 @@ import { Sale } from './entities/sale.entity';
 import { ProductsService } from '@/products/products.service';
 
 @Module({
-  imports: [
-    CqrsModule,
-    TypeOrmModule.forFeature([
-      Sale
-    ]),
-    SalesItemsModule
-  ],
+  imports: [CqrsModule, TypeOrmModule.forFeature([Sale]), SalesItemsModule],
   controllers: [SalesController],
   providers: [
     SalesService,
